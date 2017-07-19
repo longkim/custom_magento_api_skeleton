@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Towersystems_Customapimodule>
+      <version>1.0</version>
+    </Towersystems_Customapimodule>
+  </modules>
+  <global>
+    <models>
+      <customapimodule>
+        <class>Towersystems_Customapimodule_Model</class>
+      </customapimodule>
+    </models>
+    <helpers>
+      <customapimodule>
+        <class>Towersystems_Customapimodule_Helper</class>
+      </customapimodule>
+    </helpers>
+  </global>
+</config>
