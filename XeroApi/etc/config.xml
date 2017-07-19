@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!--
+	Author: Vinh Kim
+	Updated: 21/12/2015
+-->
+<config>
+	<modules>
+		<Towersystems_XeroApi>
+            <version>0.1.0</version>
+        </Towersystems_XeroApi>
+	</modules>
+    <global>
+        <models>
+            <towersystems_xeroapi>
+                <class>Towersystems_XeroApi_Model</class>
+            </towersystems_xeroapi>
+        </models>
+        <helpers>
+            <xeroapi>
+                <class>Towersystems_XeroApi_Helper</class>
+            </xeroapi>
+         </helpers>
+        <resources>  
+            <towersystems_xeroapi_setup>
+                <setup>
+                 <module>Towersystems_XeroApi</module>
+                 <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </towersystems_xeroapi_setup>   
+        </resources>
+    </global>
+
+	<frontend>
+        <layout>
+            <updates>
+                <xeroapi>
+                    <file>xeroapi.xml</file>
+                </xeroapi>
+            </updates>
+        </layout>
+          <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <send_sales_data>
+                        <class>Towersystems_XeroApi_Model_Xeroapi</class>
+                        <method>sendSalesDataToTalink</method>
+                    </send_sales_data>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
+	</frontend>
+
+     <crontab>
+        <jobs>
+             
+            <cronjob_invoice_xero_api>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>towersystems_xeroapi/xeroapi::cronJobXeroInvoiceApiSender</model></run>
+            </cronjob_invoice_xero_api>
+            <cronjob_bill_xero_api>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>towersystems_xeroapi/xeroapi::cronJobXeroBillApiSender</model></run>
+            </cronjob_bill_xero_api>
+        </jobs>
+    </crontab>
+
+    <adminhtml>
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <system>
+                  <children>
+                    <config>
+                      <children>
+                        <xeroapi>
+                          <title>Xero and Talink Setting</title>
+                          <sort_order>100</sort_order>
+                        </xeroapi>
+                      </children>
+                    </config>
+                  </children>
+                </system>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+    </adminhtml>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <xeroapi>
+                    <file>xeroapi.xml</file>
+                </xeroapi>
+            </updates>
+        </layout>
+    </adminhtml>
+   <!--   <global>
+        <blocks>
+            <xeroapi>
+                <class>Towersystems_XeroApi_Block</class>
+            </xeroapi>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_view_info>Towersystems_XeroApi_Block_Sales_Order_View_Info</sales_order_view_info>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global> -->
+
+    <frontend>
+        <routers>
+              <routeurfrontend>
+                <use>standard</use>
+                <args>
+                    <module>Towersystems_XeroApi</module>
+                    <frontName>ts</frontName>
+                </args>
+            </routeurfrontend>
+        </routers>    
+    </frontend>
+    <default>
+        <xeroapi>
+            <xero>
+                <active>1</active>
+                <is_talink>0</is_talink>
+                <talink_url><![CDATA[https://talink.towersystems.com.au/wsdl/rcti_to_xero.php?wsdl]]></talink_url>
+                <api_url><![CDATA[https://api.xero.com/api.xro/2.0/]]></api_url>
+                <cons_key><![CDATA[QTC9204DIAYXRT7PIGCE8V70QXSJFL]]></cons_key>
+                <cons_sec><![CDATA[5SIJM8OKGKQLQVF3GBIYKVQUDSAMPT]]></cons_sec>
+                <account_code><![CDATA[880]]></account_code>
+                <bill_template_id><![CDATA[2]]></bill_template_id>
+                <invoice_template_id><![CDATA[3]]></invoice_template_id>
+                <processing_fee_percentage><![CDATA[0.03]]></processing_fee_percentage>          
+            </xero>
+        </xeroapi>
+    </default>
+</config>

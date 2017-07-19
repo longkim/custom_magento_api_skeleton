@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+  <adminhtml>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <xeroapi>
+                      <title>Xero and Talink Setting</title>
+                      <sort_order>100</sort_order>
+                    </xeroapi>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+</adminhtml>
+</config>
